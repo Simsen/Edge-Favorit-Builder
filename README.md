@@ -2,6 +2,8 @@
 
 A web-based tool for building and managing Microsoft Edge Favorites (bookmarks) configurations for enterprise deployment via **Microsoft Intune (Windows)** and **Custom Policies (macOS)**.
 
+🔗 https://www.simsenblog.dk/edge-favorit-builder/
+
 ## 🎯 What Problem Does It Solve?
 
 Managing browser favorites across an organization can be challenging. IT administrators often need to:
