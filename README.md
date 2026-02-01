@@ -151,17 +151,6 @@ edge_favorites_builder/
 
 ---
 
-## 📸 Screenshots
-
-*Screenshots of the tool in action can be added here*
-
-- Main interface with folder structure
-- Drag-and-drop in action
-- Export dialogs
-- Generated configuration preview
-
----
-
 ## 🔧 Configuration Output Examples
 
 ### Windows (Intune JSON)
