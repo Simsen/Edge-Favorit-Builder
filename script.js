@@ -644,22 +644,13 @@ function generateJSON() {
         if (item.type === 'folder') {
             output.push(convertFolderForExport(item));
         } else if (item.type === 'link') {
-            // Standalone links go into a default folder
-            // Will be handled below
+            // Root-level links are exported directly
+            output.push({
+                name: item.name || '',
+                url: item.url || ''
+            });
         }
     });
-    
-    // Add standalone links to a Links folder
-    const standaloneLinks = state.items.filter(item => item.type === 'link');
-    if (standaloneLinks.length > 0) {
-        output.push({
-            name: 'Links',
-            children: standaloneLinks.map(link => ({
-                name: link.name || '',
-                url: link.url || ''
-            }))
-        });
-    }
 
     const jsonOutput = JSON.stringify(output, null, 2);
     
@@ -700,24 +691,18 @@ function getFavoritesArray() {
     // First element: toplevel_name
     output.push({ toplevel_name: state.rootFolder || 'Managed favourites' });
     
-    // Process folders
+    // Process all items
     state.items.forEach(item => {
         if (item.type === 'folder') {
             output.push(convertFolderForExport(item));
+        } else if (item.type === 'link') {
+            // Root-level links are exported directly
+            output.push({
+                name: item.name || '',
+                url: item.url || ''
+            });
         }
     });
-    
-    // Add standalone links
-    const standaloneLinks = state.items.filter(item => item.type === 'link');
-    if (standaloneLinks.length > 0) {
-        output.push({
-            name: 'Links',
-            children: standaloneLinks.map(link => ({
-                name: link.name || '',
-                url: link.url || ''
-            }))
-        });
-    }
 
     return output;
 }
@@ -1040,6 +1025,13 @@ function loadFavoritesFromArray(favoritesArray) {
     favoritesArray.forEach(item => {
         if (item.toplevel_name !== undefined) {
             state.rootFolder = item.toplevel_name;
+        } else if (item.url !== undefined) {
+            // Root-level link
+            state.items.push({
+                type: 'link',
+                name: item.name || '',
+                url: item.url || ''
+            });
         } else if (item.name) {
             state.items.push(convertImportedFolder(item));
         }
